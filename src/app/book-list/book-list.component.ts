@@ -18,9 +18,20 @@ export class BookListComponent implements OnInit {
   }
 
   bookList;
-
+  searchValue:string;
+  isFind=false;
   booksNumber: number;
 
+  search(){
+    for(var i=0;i<this.bookList.length;i++){
+      if(this.bookList[i].title==this.searchValue){
+        this.isFind=true;
+        this.bookList=[];
+        this.bookList.push(this.bookList[i]);
+      }
+    }
+    
+  }
   getBookList = () => {
     this.bookService.getBookList().subscribe(
       response => {this.bookList = response; this.booksNumber = this.bookList.length;},
