@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BookService} from '../service/book.service';
 import {Router} from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-book-list',
@@ -8,11 +9,12 @@ import {Router} from '@angular/router';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit {
-
-  constructor(private bookService: BookService, private router: Router) { }
+  loggedIn=false;
+  constructor(private bookService: BookService, private router: Router,private authService:AuthService) { }
 
   ngOnInit(): void {
-    this.getBookList()
+    this.getBookList();
+    this.loggedIn=this.authService.getCredential();
   }
 
   bookList;
@@ -40,4 +42,14 @@ export class BookListComponent implements OnInit {
     this.bookService.setBook(book);
     this.router.navigate(["/book-delete"]);
   }
+
+  logout(){
+    
+    this.authService.logout();
+    this.loggedIn=false;
+    this.router.navigate(['/']);
+    
+  }
+
+  
 }
